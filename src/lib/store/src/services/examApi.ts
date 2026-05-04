@@ -38,6 +38,19 @@ export const examApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Exam"],
     }),
+    getExamMarks: builder.query<any, { examId: string; classId: string }>({
+      query: ({ examId, classId }) => `/exams/${examId}/marks/${classId}`,
+      transformResponse: (response: { data: any }) => response.data,
+      providesTags: ["Exam"],
+    }),
+    submitMarks: builder.mutation<any, { examId: string; classId: string; marks: any[] }>({
+      query: ({ examId, classId, marks }) => ({
+        url: `/exams/${examId}/marks/${classId}`,
+        method: "POST",
+        body: { marks },
+      }),
+      invalidatesTags: ["Exam"],
+    }),
   }),
 });
 
@@ -47,4 +60,6 @@ export const {
   useCreateExamMutation,
   useUpdateExamMutation,
   useDeleteExamMutation,
+  useGetExamMarksQuery,
+  useSubmitMarksMutation,
 } = examApi;

@@ -37,6 +37,19 @@ export const teacherApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Teacher"],
     }),
+    getTeacherProfile: builder.query<Teacher, void>({
+      query: () => "/teachers/me",
+      transformResponse: (response: { data: Teacher }) => response.data,
+      providesTags: ["Teacher"],
+    }),
+    updateTeacherProfile: builder.mutation<Teacher, Partial<Teacher>>({
+      query: (body) => ({
+        url: "/teachers/me",
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["Teacher"],
+    }),
   }),
 });
 
@@ -46,4 +59,6 @@ export const {
   useCreateTeacherMutation,
   useUpdateTeacherMutation,
   useDeleteTeacherMutation,
+  useGetTeacherProfileQuery,
+  useUpdateTeacherProfileMutation,
 } = teacherApi;

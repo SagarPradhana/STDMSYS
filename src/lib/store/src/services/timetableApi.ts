@@ -15,6 +15,10 @@ export const timetableApi = apiSlice.injectEndpoints({
         body,
       }),
       invalidatesTags: ["Class"],
+    getTeacherTimetable: builder.query<TimetableSlot[], void>({
+      query: () => "/timetable/teacher/me",
+      transformResponse: (response: { success: boolean, data: TimetableSlot[] }) => response.data,
+      providesTags: ["Teacher"],
     }),
   }),
 });
@@ -22,4 +26,5 @@ export const timetableApi = apiSlice.injectEndpoints({
 export const {
   useGetTimetableByClassQuery,
   useUpdateTimetableMutation,
+  useGetTeacherTimetableQuery,
 } = timetableApi;
