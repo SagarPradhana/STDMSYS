@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { User, Student, Teacher, Class, Fee, Attendance, Notice, Result, Assignment } from "../models/all";
+import { User, Student, Teacher, Class, Fee, Attendance, Notice, Result, Assignment, Exam } from "../models/all";
 import { verifyToken, authorize, AuthRequest } from "../middleware/auth.middleware";
 import { asyncHandler } from "../middleware/error.middleware";
 

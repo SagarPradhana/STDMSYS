@@ -42,7 +42,7 @@ router.get(
     });
 
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const trend = [];
+    const trend: any[] = [];
     for(let i=0; i<7; i++) {
       const d = new Date();
       d.setDate(d.getDate() - i);
@@ -61,7 +61,7 @@ router.get(
 
     // Get low attendance classes
     const classes = await (await import("../models/all")).Class.find();
-    const classStats = [];
+    const classStats: any[] = [];
     for(const cls of classes) {
       const clsRecords = weeklyRecords.filter(r => r.classId.toString() === cls._id.toString());
       const present = clsRecords.filter(r => r.status === 'present').length;
