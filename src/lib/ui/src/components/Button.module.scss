@@ -1,0 +1,43 @@
+.button {
+  @apply inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+}
+
+.default {
+  @apply bg-primary text-primary-foreground hover:bg-primary/90;
+}
+
+.destructive {
+  @apply bg-danger text-white hover:bg-danger/90;
+}
+
+.outline {
+  @apply border border-border bg-transparent hover:bg-surface-2;
+}
+
+.secondary {
+  @apply bg-secondary text-secondary-foreground hover:bg-secondary/80;
+}
+
+.ghost {
+  @apply hover:bg-surface-2;
+}
+
+.link {
+  @apply text-primary underline-offset-4 hover:underline;
+}
+
+.sizeDefault {
+  @apply h-10 px-4 py-2;
+}
+
+.sizeSm {
+  @apply h-9 rounded-md px-3;
+}
+
+.sizeLg {
+  @apply h-11 rounded-md px-8;
+}
+
+.sizeIcon {
+  @apply h-10 w-10;
+}

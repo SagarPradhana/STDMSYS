@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [{ "name": "next" }],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@school-management/types": ["./src/lib/types/index.ts"],
+      "@school-management/store": ["./src/lib/store/src/index.ts"],
+      "@school-management/ui": ["./src/lib/ui/src/index.ts"],
+      "@school-management/utils": ["./src/lib/utils/src/index.ts"],
+      "@school-management/config": ["./src/lib/config/src/index.ts"],
+      "@school-management/utils/hooks": ["./src/lib/utils/src/hooks.ts"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules", "backend"]
+}
