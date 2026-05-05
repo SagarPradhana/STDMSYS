@@ -70,8 +70,8 @@ export default function TeacherDashboardContent() {
   }));
 
   const pendingTasks = (timetable || []).slice(0, 4).map((task: any) => ({
-    task: task.subjectId?.name || task.subject || "Class",
-    deadline: task.startTime ? new Date(task.startTime).toLocaleDateString() : "Scheduled",
+    task: task.subjectId?.name || task.subject || "Class Scheduled",
+    deadline: task.day || "Today",
     priority: "medium",
   }));
 
@@ -228,9 +228,9 @@ export default function TeacherDashboardContent() {
             Detailed Report
           </button>
         </div>
-        {stats?.classPerformance && stats.classPerformance.length > 0 ? (
+        {(stats as any)?.classPerformance && (stats as any).classPerformance.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {stats.classPerformance.map((cls: any, i: number) => (
+            {(stats as any).classPerformance.map((cls: any, i: number) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, scale: 0.95 }}
