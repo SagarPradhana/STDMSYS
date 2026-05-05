@@ -14,6 +14,11 @@ export const studentApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["Student"],
     }),
+    getStudentsByClass: builder.query<Student[], string>({
+      query: (classId) => `/students?classId=${classId}&limit=100`,
+      transformResponse: (response: { success: boolean, data: Student[] }) => response.data,
+      providesTags: ["Student"],
+    }),
     getStudentById: builder.query<Student, string>({
       query: (id) => `/students/${id}`,
       providesTags: (result, error, id) => [{ type: "Student", id }],
@@ -46,6 +51,7 @@ export const studentApi = apiSlice.injectEndpoints({
 
 export const {
   useGetStudentsQuery,
+  useGetStudentsByClassQuery,
   useGetStudentByIdQuery,
   useCreateStudentMutation,
   useUpdateStudentMutation,

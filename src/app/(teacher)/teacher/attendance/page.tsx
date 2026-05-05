@@ -12,8 +12,9 @@ import {
   Clock,
   Save,
   Loader2,
-  ChevronLeft,
-  ChevronRight,
+  UserCheck,
+  UserX,
+  CalendarOff,
 } from "lucide-react";
 import { PageHeader, Button } from "@school-management/ui";
 import { cn } from "@school-management/utils";
@@ -68,7 +69,7 @@ export default function TeacherAttendancePage() {
       await markAttendance({
         classId: selectedClass,
         date: selectedDate,
-        attendance: Object.entries(attendance).map(([studentId, status]) => ({
+        records: Object.entries(attendance).map(([studentId, status]) => ({
           studentId,
           status,
         })),
@@ -80,14 +81,11 @@ export default function TeacherAttendancePage() {
     }
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "present": return <CheckCircle className="w-4 h-4 text-green-500" />;
-      case "absent": return <XCircle className="w-4 h-4 text-red-500" />;
-      case "leave": return <Clock className="w-4 h-4 text-yellow-500" />;
-      default: return null;
-    }
-  };
+  const selectedClassName = classes.find((c: any) => c.classId?._id === selectedClass)?.classId?.name;
+
+  const presentCount = Object.values(attendance).filter(s => s === "present").length;
+  const absentCount = Object.values(attendance).filter(s => s === "absent").length;
+  const leaveCount = Object.values(attendance).filter(s => s === "leave").length;
 
   return (
     <div className="space-y-6">
@@ -98,11 +96,11 @@ export default function TeacherAttendancePage() {
 
       <div className="flex flex-wrap gap-4 items-end">
         <div className="flex-1 min-w-[200px]">
-          <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1.5 block">Select Class</label>
+          <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 block">Select Class</label>
           <select
             value={selectedClass}
             onChange={(e) => setSelectedClass(e.target.value)}
-            className="w-full px-4 py-2.5 bg-card border rounded-xl text-sm"
+            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 transition-all"
           >
             <option value="">Select a class</option>
             {classes.map((cls: any) => (
@@ -113,8 +111,8 @@ export default function TeacherAttendancePage() {
           </select>
         </div>
         
-        <div className="min-w-[150px]">
-          <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1.5 block">Date</label>
+        <div className="min-w-[160px]">
+          <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 block">Date</label>
           <input
             type="date"
             value={selectedDate}
@@ -123,13 +121,13 @@ export default function TeacherAttendancePage() {
               const dayIndex = new Date(e.target.value).getDay();
               setSelectedDay(DAYS[dayIndex - 1] || "Monday");
             }}
-            className="w-full px-4 py-2.5 bg-card border rounded-xl text-sm"
+            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-500 transition-all"
           />
         </div>
 
-        <div className="min-w-[120px]">
-          <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1.5 block">Day</label>
-          <div className="px-4 py-2.5 bg-muted/50 rounded-xl text-sm font-medium">
+        <div className="min-w-[140px]">
+          <label className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2 block">Day</label>
+          <div className="px-4 py-3 bg-gradient-to-r from-violet-50 to-purple-50 border border-violet-200 rounded-xl text-sm font-semibold text-violet-700">
             {selectedDay}
           </div>
         </div>
@@ -139,32 +137,49 @@ export default function TeacherAttendancePage() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-card rounded-xl border overflow-hidden"
+          className="bg-white rounded-2xl border border-slate-200/60 overflow-hidden shadow-sm"
         >
-          <div className="p-4 border-b flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <ClipboardCheck className="w-5 h-5 text-primary" />
-              <span className="font-semibold">Student List</span>
+          <div className="p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 shadow-lg shadow-violet-500/20">
+                <ClipboardCheck className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h3 className="font-bold text-slate-800">{selectedClassName}</h3>
+                <p className="text-xs text-slate-500">Student Attendance List</p>
+              </div>
             </div>
-            <div className="flex items-center gap-4 text-sm">
-              <span className="flex items-center gap-1">
-                <CheckCircle className="w-4 h-4 text-green-500" /> Present
-              </span>
-              <span className="flex items-center gap-1">
-                <XCircle className="w-4 h-4 text-red-500" /> Absent
-              </span>
-              <span className="flex items-center gap-1">
-                <Clock className="w-4 h-4 text-yellow-500" /> Leave
-              </span>
-            </div>
+            
+            {students?.length > 0 && (
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50">
+                  <UserCheck className="w-4 h-4 text-emerald-600" />
+                  <span className="text-sm font-semibold text-emerald-700">{presentCount}</span>
+                  <span className="text-xs text-emerald-500">Present</span>
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50">
+                  <UserX className="w-4 h-4 text-rose-600" />
+                  <span className="text-sm font-semibold text-rose-700">{absentCount}</span>
+                  <span className="text-xs text-rose-500">Absent</span>
+                </div>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50">
+                  <CalendarOff className="w-4 h-4 text-amber-600" />
+                  <span className="text-sm font-semibold text-amber-700">{leaveCount}</span>
+                  <span className="text-xs text-amber-500">Leave</span>
+                </div>
+              </div>
+            )}
           </div>
 
           {isLoading ? (
-            <div className="p-8 text-center">
-              <Loader2 className="w-8 h-8 animate-spin mx-auto text-primary" />
+            <div className="p-12 text-center">
+              <div className="w-12 h-12 rounded-full bg-violet-100 flex items-center justify-center mx-auto mb-4">
+                <Loader2 className="w-6 h-6 animate-spin text-violet-600" />
+              </div>
+              <p className="text-sm text-slate-500">Loading students...</p>
             </div>
           ) : students?.length > 0 ? (
-            <div className="divide-y">
+            <div className="divide-y divide-slate-100">
               {students.map((student: any, index: number) => {
                 const studentId = student.studentId?._id || student._id;
                 const currentStatus = attendance[studentId] || "present";
@@ -174,33 +189,36 @@ export default function TeacherAttendancePage() {
                     key={studentId}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="p-4 flex items-center justify-between hover:bg-muted/30"
+                    transition={{ delay: index * 0.03 }}
+                    className="p-4 flex items-center justify-between hover:bg-slate-50/80 transition-colors"
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-semibold text-primary">
+                    <div className="flex items-center gap-4">
+                      <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center font-bold text-white">
                         {student.studentId?.name?.charAt(0) || "S"}
                       </div>
                       <div>
-                        <p className="font-medium">{student.studentId?.name || "Student"}</p>
-                        <p className="text-xs text-muted-foreground">{student.studentId?.rollNumber || ""}</p>
+                        <p className="font-semibold text-slate-800">{student.studentId?.name || "Student"}</p>
+                        <p className="text-xs text-slate-500 font-medium">Roll No: {student.studentId?.rollNumber || ""}</p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1.5">
                       {(["present", "absent", "leave"] as const).map((status) => (
                         <button
                           key={status}
                           onClick={() => handleStatusChange(studentId, status)}
                           className={cn(
-                            "px-3 py-1.5 rounded-lg text-xs font-medium transition-all capitalize",
+                            "px-4 py-2 rounded-xl text-xs font-bold transition-all capitalize flex items-center gap-1.5",
                             currentStatus === status
-                              ? status === "present" ? "bg-green-500 text-white" :
-                                status === "absent" ? "bg-red-500 text-white" :
-                                "bg-yellow-500 text-white"
-                              : "bg-muted hover:bg-muted/80"
+                              ? status === "present" ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/25" :
+                                status === "absent" ? "bg-gradient-to-r from-rose-500 to-pink-600 text-white shadow-lg shadow-rose-500/25" :
+                                "bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg shadow-amber-500/25"
+                              : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                           )}
                         >
+                          {status === "present" && <CheckCircle className="w-3.5 h-3.5" />}
+                          {status === "absent" && <XCircle className="w-3.5 h-3.5" />}
+                          {status === "leave" && <Clock className="w-3.5 h-3.5" />}
                           {status}
                         </button>
                       ))}
@@ -210,16 +228,20 @@ export default function TeacherAttendancePage() {
               })}
             </div>
           ) : (
-            <div className="p-8 text-center">
-              <Users className="w-12 h-12 text-muted-foreground mx-auto mb-2" />
-              <p className="text-muted-foreground">No students found for this class</p>
+            <div className="p-12 text-center">
+              <div className="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center mx-auto mb-4">
+                <Users className="w-8 h-8 text-slate-400" />
+              </div>
+              <h3 className="font-bold text-slate-800 mb-1">No Students Found</h3>
+              <p className="text-sm text-slate-500">No students are enrolled in this class yet</p>
             </div>
           )}
 
           {students?.length > 0 && (
-            <div className="p-4 border-t flex justify-between items-center bg-muted/20">
-              <div className="text-sm text-muted-foreground">
-                Total: {students.length} students
+            <div className="p-5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4 bg-slate-50/50">
+              <div className="text-sm text-slate-500">
+                <span className="font-bold text-slate-700">{students.length}</span> students in class
+                {saved && <span className="ml-2 text-emerald-600 font-medium">• Saved</span>}
               </div>
               <div className="flex gap-3">
                 <Button 
@@ -231,13 +253,15 @@ export default function TeacherAttendancePage() {
                     });
                     setAttendance(allPresent);
                   }}
+                  className="gap-2 border-slate-200 hover:bg-emerald-50 hover:border-emerald-300 hover:text-emerald-700"
                 >
+                  <CheckCircle className="w-4 h-4" />
                   Mark All Present
                 </Button>
                 <Button 
                   onClick={handleSaveAttendance}
                   disabled={isMarking}
-                  className="gap-2"
+                  className="gap-2 bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 shadow-lg shadow-violet-500/25"
                 >
                   {isMarking ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                   Save Attendance
@@ -247,9 +271,12 @@ export default function TeacherAttendancePage() {
           )}
         </motion.div>
       ) : (
-        <div className="text-center py-12 bg-card rounded-xl border">
-          <CalendarClock className="w-12 h-12 text-muted-foreground mx-auto mb-2" />
-          <p className="text-muted-foreground">Select a class to mark attendance</p>
+        <div className="text-center py-16 bg-white rounded-2xl border border-slate-200/60">
+          <div className="w-20 h-20 rounded-2xl bg-violet-50 flex items-center justify-center mx-auto mb-5">
+            <CalendarClock className="w-10 h-10 text-violet-400" />
+          </div>
+          <h3 className="font-bold text-lg text-slate-800 mb-2">Select a Class</h3>
+          <p className="text-sm text-slate-500 max-w-sm mx-auto">Choose a class from the dropdown above to start marking attendance</p>
         </div>
       )}
     </div>

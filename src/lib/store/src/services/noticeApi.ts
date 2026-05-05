@@ -4,6 +4,7 @@ export const noticeApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getNotices: builder.query<any[], void>({
       query: () => "/notices",
+      transformResponse: (response: { success: boolean, data: any[] }) => response.data,
       providesTags: ["Notice"],
     }),
     createNotice: builder.mutation<any, any>({

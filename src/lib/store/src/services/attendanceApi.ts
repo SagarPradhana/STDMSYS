@@ -8,6 +8,7 @@ export const attendanceApi = apiSlice.injectEndpoints({
         url: "/attendance",
         params,
       }),
+      transformResponse: (response: { success: boolean, data: Attendance[] }) => response.data,
       providesTags: ["Attendance"],
     }),
     markAttendance: builder.mutation<Attendance, any>({
@@ -20,6 +21,7 @@ export const attendanceApi = apiSlice.injectEndpoints({
     }),
     getAttendanceStats: builder.query<any, void>({
       query: () => "/attendance/stats",
+      transformResponse: (response: { success: boolean, data: any }) => response.data,
       providesTags: ["Attendance"],
     }),
   }),

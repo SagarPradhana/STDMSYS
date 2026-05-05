@@ -31,7 +31,7 @@ export default function AttendancePage() {
   const { data: statsData, isLoading } = useGetAttendanceStatsQuery();
   const [selectedMonth] = useState("April 2026");
 
-  const stats = statsData?.data || {};
+  const stats = statsData || {};
   const distribution = stats.distribution || { present: 0, absent: 0, late: 0, excused: 0 };
   const trend = stats.trend || [];
   const total = stats.totalStudents || 1;
