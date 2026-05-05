@@ -174,7 +174,7 @@ export default function TeacherProfilePage() {
                     <input
                       type={field.label === "Phone" ? "tel" : field.label === "Email" ? "email" : "text"}
                       value={formData[field.label.toLowerCase() as keyof ProfileData] as string || ""}
-                      onChange={(e) => setFormData(prev => ({ ...prev, [field.label.toLowerCase()]: e.target.value }))}
+                      onChange={(e) => setFormData((prev: any) => ({ ...prev, [field.label.toLowerCase()]: e.target.value }))}
                       className="w-full px-4 py-2.5 bg-muted border rounded-xl text-sm"
                     />
                   ) : (
@@ -194,7 +194,7 @@ export default function TeacherProfilePage() {
                 </label>
                 <textarea
                   value={formData.bio}
-                  onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
+                  onChange={(e) => setFormData((prev: any) => ({ ...prev, bio: e.target.value }))}
                   className="w-full px-4 py-2.5 bg-muted border rounded-xl text-sm h-24 resize-none"
                   placeholder="Tell us about yourself..."
                 />

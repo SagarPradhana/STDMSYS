@@ -28,7 +28,7 @@ const PERIODS = [
   { time: "14:00 - 14:50", label: "Period 6" },
 ];
 
-interface TimetableSlot {
+interface LocalTimetableSlot {
   _id: string;
   day: string;
   period: number;
@@ -60,7 +60,7 @@ export default function TeacherSchedulePage() {
     let period = periodIndex;
     if (periodIndex > 2) period += 1;
     if (periodIndex > 5) period += 1;
-    return timetable.find((s: TimetableSlot) => s.day === day && s.period === period);
+    return timetable.find((s: any) => s.day === day && s.period === period);
   };
 
   const getSubjectStyle = (subject: string) => {
@@ -74,7 +74,7 @@ export default function TeacherSchedulePage() {
   };
 
   const totalPeriods = timetable.length;
-  const activeSubjects = new Set(timetable.map((s: TimetableSlot) => s.subjectId?.name)).size;
+  const activeSubjects = new Set(timetable.map((s: any) => s.subjectId?.name)).size;
 
   return (
     <div className="space-y-6">
@@ -203,15 +203,15 @@ export default function TeacherSchedulePage() {
                     ) : (
                       DAYS.map((_, dayIdx) => {
                         const slot = getSlot(dayIdx, pIdx);
-                        const style = slot ? getSubjectStyle(slot.subjectId?.name) : null;
+                        const style = slot ? getSubjectStyle((slot as any).subjectId?.name) : null;
                         return (
                           <td key={`${dayIdx}-${pIdx}`} className="p-2 border-b align-top">
                             {slot ? (
                               <div className={cn("p-3 rounded-xl border transition-all hover:shadow-md", style?.bg, style?.border)}>
                                 <h4 className={cn("text-sm font-semibold mb-1", style?.text)}>
-                                  {slot.subjectId?.name}
+                                  {(slot as any).subjectId?.name}
                                 </h4>
-                                <p className="text-xs text-muted-foreground">{slot.classId?.name}</p>
+                                <p className="text-xs text-muted-foreground">{(slot as any).classId?.name}</p>
                                 <div className="flex items-center gap-1 mt-2 text-xs text-muted-foreground">
                                   <MapPin className="w-3 h-3" />
                                   <span>{slot.room}</span>

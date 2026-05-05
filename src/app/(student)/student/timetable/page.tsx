@@ -21,7 +21,7 @@ const PERIODS = [
   { time: "12:30 - 13:20", label: "Period 5" },
 ];
 
-interface TimetableSlot {
+interface LocalTimetableSlot {
   _id: string;
   day: string;
   period: number;
@@ -31,7 +31,7 @@ interface TimetableSlot {
 }
 
 export default function TimetablePage() {
-  const [timetable, setTimetable] = useState<TimetableSlot[]>([]);
+  const [timetable, setTimetable] = useState<LocalTimetableSlot[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

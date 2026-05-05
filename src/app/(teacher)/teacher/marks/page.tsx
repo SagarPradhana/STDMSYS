@@ -297,7 +297,7 @@ export default function TeacherMarksPage() {
                     <input
                       type="number"
                       defaultValue={student.marks}
-                      onChange={(e) => setEditingMarks(prev => ({ ...prev, [student._id]: parseInt(e.target.value) || 0 }))}
+                      onChange={(e) => setEditingMarks((prev: any) => ({ ...prev, [student._id]: parseInt(e.target.value) || 0 }))}
                       className="w-20 px-3 py-2 bg-card border rounded-lg text-center"
                       placeholder="Marks"
                     />

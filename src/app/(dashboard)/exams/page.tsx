@@ -36,14 +36,14 @@ export default function ExamsPage() {
   const [createExam, { isLoading: isCreating }] = useCreateExamMutation();
 
   const [showScheduleModal, setShowScheduleModal] = useState(false);
-  const [examForm, setExamForm] = useState({ name: "", type: "Final", classId: "", startDate: "", endDate: "", subjects: "1" });
+  const [examForm, setExamForm] = useState({ name: "", type: "final", classId: "", startDate: "", endDate: "", subjects: "1" });
 
   const getExamTypeGrad = (type: string) => {
-    switch (type) {
-      case "Final": return "linear-gradient(135deg,#EF4444,#F87171)";
-      case "Midterm": return "linear-gradient(135deg,#6366F1,#818CF8)";
-      case "Unit": return "linear-gradient(135deg,#10B981,#34D399)";
-      case "Mock": return "linear-gradient(135deg,#F59E0B,#FCD34D)";
+    switch (type.toLowerCase()) {
+      case "final": return "linear-gradient(135deg,#EF4444,#F87171)";
+      case "midterm": return "linear-gradient(135deg,#6366F1,#818CF8)";
+      case "unit": return "linear-gradient(135deg,#10B981,#34D399)";
+      case "mock": return "linear-gradient(135deg,#F59E0B,#FCD34D)";
       default: return "linear-gradient(135deg,#6366F1,#818CF8)";
     }
   };
@@ -62,7 +62,7 @@ export default function ExamsPage() {
       }).unwrap();
       toast.success(`"${examForm.name}" scheduled successfully!`);
       setShowScheduleModal(false);
-      setExamForm({ name: "", type: "Final", classId: "", startDate: "", endDate: "", subjects: "1" });
+      setExamForm({ name: "", type: "final", classId: "", startDate: "", endDate: "", subjects: "1" });
     } catch (err: any) {
       toast.error(err.data?.message || "Failed to schedule exam");
     }
@@ -190,9 +190,9 @@ export default function ExamsPage() {
                     <h4 className="font-bold text-[15px] text-[#1E1B4B]">{exam.name}</h4>
                     <div className={cn(
                       "px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider",
-                      exam.type === "Final" ? "bg-[#FEE2E2] text-[#DC2626]" :
-                      exam.type === "Midterm" ? "bg-[#EDE9FE] text-[#6366F1]" :
-                      exam.type === "Unit" ? "bg-[#DCFCE7] text-[#16A34A]" : "bg-[#FEF3C7] text-[#D97706]"
+                      exam.type === "final" ? "bg-[#FEE2E2] text-[#DC2626]" :
+                      exam.type === "midterm" ? "bg-[#EDE9FE] text-[#6366F1]" :
+                      exam.type === "unit" ? "bg-[#DCFCE7] text-[#16A34A]" : "bg-[#FEF3C7] text-[#D97706]"
                     )}>
                       {exam.type}
                     </div>
@@ -263,10 +263,10 @@ export default function ExamsPage() {
                   <label className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-widest">Exam Type</label>
                   <select value={examForm.type} onChange={e => setExamForm(p => ({...p, type: e.target.value}))}
                     className="w-full px-4 py-2.5 bg-[var(--bg-surface-2)] border border-[var(--border)] rounded-xl text-sm text-[var(--text-primary)] outline-none focus:border-amber-500">
-                    <option value="Final">Final</option>
-                    <option value="Midterm">Midterm</option>
-                    <option value="Unit">Unit</option>
-                    <option value="Mock">Mock</option>
+                    <option value="final">Final</option>
+                    <option value="midterm">Midterm</option>
+                    <option value="unit">Unit</option>
+                    <option value="mock">Mock</option>
                   </select>
                 </div>
                 <div className="space-y-1.5">

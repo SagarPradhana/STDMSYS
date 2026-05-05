@@ -36,9 +36,9 @@ export const classApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Class"],
     }),
-    getTeacherClasses: builder.query<Class[], void>({
+    getTeacherClasses: builder.query<any[], void>({
       query: () => "/classes/me",
-      transformResponse: (response: { data: Class[] }) => response.data,
+      transformResponse: (response: { data: any[] }) => response.data,
       providesTags: ["Class"],
     }),
   }),

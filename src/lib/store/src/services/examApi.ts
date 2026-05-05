@@ -43,11 +43,11 @@ export const examApi = apiSlice.injectEndpoints({
       transformResponse: (response: { data: any }) => response.data,
       providesTags: ["Exam"],
     }),
-    submitMarks: builder.mutation<any, { examId: string; classId: string; marks: any[] }>({
-      query: ({ examId, classId, marks }) => ({
+    submitMarks: builder.mutation<any, { examId: string; classId: string; subject?: string; marks: any[] }>({
+      query: ({ examId, classId, ...body }) => ({
         url: `/exams/${examId}/marks/${classId}`,
         method: "POST",
-        body: { marks },
+        body,
       }),
       invalidatesTags: ["Exam"],
     }),

@@ -10,7 +10,7 @@ export const attendanceApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["Attendance"],
     }),
-    markAttendance: builder.mutation<Attendance, Partial<Attendance>>({
+    markAttendance: builder.mutation<Attendance, any>({
       query: (body) => ({
         url: "/attendance",
         method: "POST",

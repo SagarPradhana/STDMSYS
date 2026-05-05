@@ -18,7 +18,7 @@ import {
   Eye,
   Loader2,
 } from "lucide-react";
-import { PageHeader, Button, Modal } from "@school-management/ui";
+import { PageHeader, Button } from "@school-management/ui";
 import { cn } from "@school-management/utils";
 import toast from "react-hot-toast";
 import { 
@@ -29,7 +29,7 @@ import {
   useGetTeacherClassesQuery 
 } from "@school-management/store";
 
-interface Assignment {
+interface TeacherAssignment {
   _id: string;
   title: string;
   description: string;
@@ -64,10 +64,10 @@ export default function TeacherAssignmentsPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedAssignment, setSelectedAssignment] = useState<Assignment | null>(null);
+  const [selectedAssignment, setSelectedAssignment] = useState<TeacherAssignment | null>(null);
   const [formData, setFormData] = useState<any>(EMPTY_ASSIGNMENT);
 
-  const filteredAssignments = assignments.filter((a: Assignment) => {
+  const filteredAssignments = assignments.filter((a: any) => {
     const matchesSearch = a.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       a.subject?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === "all" || a.status === statusFilter;
@@ -79,7 +79,7 @@ export default function TeacherAssignmentsPage() {
     setShowAddModal(true);
   };
 
-  const handleEdit = (assignment: Assignment) => {
+  const handleEdit = (assignment: any) => {
     setSelectedAssignment(assignment);
     setFormData({
       title: assignment.title,
@@ -171,7 +171,7 @@ export default function TeacherAssignmentsPage() {
         </div>
       ) : filteredAssignments.length > 0 ? (
         <div className="space-y-4">
-          {filteredAssignments.map((assignment: Assignment, index: number) => (
+          {filteredAssignments.map((assignment: any, index: number) => (
             <motion.div
               key={assignment._id}
               initial={{ opacity: 0, y: 20 }}
@@ -257,7 +257,7 @@ export default function TeacherAssignmentsPage() {
                 <input
                   type="text"
                   value={formData.title}
-                  onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                  onChange={(e) => setFormData((prev: any) => ({ ...prev, title: e.target.value }))}
                   className="w-full px-4 py-2.5 bg-muted border rounded-xl text-sm"
                   placeholder="Assignment title"
                 />
@@ -266,7 +266,7 @@ export default function TeacherAssignmentsPage() {
                 <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1.5 block">Description</label>
                 <textarea
                   value={formData.description}
-                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  onChange={(e) => setFormData((prev: any) => ({ ...prev, description: e.target.value }))}
                   className="w-full px-4 py-2.5 bg-muted border rounded-xl text-sm h-24"
                   placeholder="Assignment description"
                 />
@@ -276,7 +276,7 @@ export default function TeacherAssignmentsPage() {
                   <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1.5 block">Class *</label>
                   <select
                     value={formData.classId}
-                    onChange={(e) => setFormData(prev => ({ ...prev, classId: e.target.value }))}
+                    onChange={(e) => setFormData((prev: any) => ({ ...prev, classId: e.target.value }))}
                     className="w-full px-4 py-2.5 bg-muted border rounded-xl text-sm"
                   >
                     <option value="">Select class</option>
@@ -290,7 +290,7 @@ export default function TeacherAssignmentsPage() {
                   <input
                     type="text"
                     value={formData.subject}
-                    onChange={(e) => setFormData(prev => ({ ...prev, subject: e.target.value }))}
+                    onChange={(e) => setFormData((prev: any) => ({ ...prev, subject: e.target.value }))}
                     className="w-full px-4 py-2.5 bg-muted border rounded-xl text-sm"
                     placeholder="Subject"
                   />
@@ -302,7 +302,7 @@ export default function TeacherAssignmentsPage() {
                   <input
                     type="date"
                     value={formData.dueDate}
-                    onChange={(e) => setFormData(prev => ({ ...prev, dueDate: e.target.value }))}
+                    onChange={(e) => setFormData((prev: any) => ({ ...prev, dueDate: e.target.value }))}
                     className="w-full px-4 py-2.5 bg-muted border rounded-xl text-sm"
                   />
                 </div>
@@ -311,7 +311,7 @@ export default function TeacherAssignmentsPage() {
                   <input
                     type="number"
                     value={formData.totalMarks}
-                    onChange={(e) => setFormData(prev => ({ ...prev, totalMarks: parseInt(e.target.value) || 100 }))}
+                    onChange={(e) => setFormData((prev: any) => ({ ...prev, totalMarks: parseInt(e.target.value) || 100 }))}
                     className="w-full px-4 py-2.5 bg-muted border rounded-xl text-sm"
                   />
                 </div>
@@ -344,7 +344,7 @@ export default function TeacherAssignmentsPage() {
                 <input
                   type="text"
                   value={formData.title}
-                  onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                  onChange={(e) => setFormData((prev: any) => ({ ...prev, title: e.target.value }))}
                   className="w-full px-4 py-2.5 bg-muted border rounded-xl text-sm"
                 />
               </div>
@@ -352,7 +352,7 @@ export default function TeacherAssignmentsPage() {
                 <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1.5 block">Description</label>
                 <textarea
                   value={formData.description}
-                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  onChange={(e) => setFormData((prev: any) => ({ ...prev, description: e.target.value }))}
                   className="w-full px-4 py-2.5 bg-muted border rounded-xl text-sm h-24"
                 />
               </div>
@@ -361,7 +361,7 @@ export default function TeacherAssignmentsPage() {
                   <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1.5 block">Class *</label>
                   <select
                     value={formData.classId}
-                    onChange={(e) => setFormData(prev => ({ ...prev, classId: e.target.value }))}
+                    onChange={(e) => setFormData((prev: any) => ({ ...prev, classId: e.target.value }))}
                     className="w-full px-4 py-2.5 bg-muted border rounded-xl text-sm"
                   >
                     <option value="">Select class</option>
@@ -374,7 +374,7 @@ export default function TeacherAssignmentsPage() {
                   <label className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-1.5 block">Status</label>
                   <select
                     value={formData.status}
-                    onChange={(e) => setFormData(prev => ({ ...prev, status: e.target.value }))}
+                    onChange={(e) => setFormData((prev: any) => ({ ...prev, status: e.target.value }))}
                     className="w-full px-4 py-2.5 bg-muted border rounded-xl text-sm"
                   >
                     <option value="active">Active</option>

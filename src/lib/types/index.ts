@@ -25,6 +25,10 @@ export interface Teacher extends User {
   classes: string[];
   qualification: string;
   joiningDate: string;
+  joinDate?: string;
+  experience?: number;
+  bio?: string;
+  address?: string;
 }
 
 export interface Class {
@@ -85,7 +89,7 @@ export interface Exam {
   _id: string;
   name: string;
   type: "midterm" | "final" | "unit" | "mock";
-  classId: string;
+  classId: string | Class;
   schedule: ExamSlot[];
   status: "upcoming" | "ongoing" | "completed";
 }

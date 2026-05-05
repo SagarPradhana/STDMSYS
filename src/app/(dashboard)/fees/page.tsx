@@ -39,7 +39,8 @@ import {
 export default function FeesPage() {
   const { data: fees = [], isLoading: isLoadingFees } = useGetFeesQuery();
   const { data: summaryData, isLoading: isLoadingSummary } = useGetFeeSummaryQuery();
-  const { data: students = [] } = useGetStudentsQuery();
+  const { data: studentsData } = useGetStudentsQuery({});
+  const students = studentsData?.students || [];
   const [collectFee, { isLoading: isCollecting }] = useCollectFeeMutation();
 
   const [showInvoiceModal, setShowInvoiceModal] = useState(false);
