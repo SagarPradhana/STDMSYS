@@ -9,7 +9,10 @@ const nextConfig = {
     "@school-management/config",
   ],
   async rewrites() {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "https://fallback-api.example.com/api";
+    const rawApiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const apiUrl = (rawApiUrl && rawApiUrl !== "undefined") 
+      ? rawApiUrl 
+      : "https://student-managementsystem-csdr.onrender.com/api";
     return [
       {
         source: "/api/:path*",
